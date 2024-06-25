@@ -1,0 +1,25 @@
+/* styles.css */
+
+/* Add styles here to customize the appearance of your app */
+table.Durum {
+
+    width: 80%;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-width: 2px;
+    border-color: #688de3;
+    border-style: solid;
+    color: #000000;
+}
+table.Durum td, table.Durum th {
+    border-width: 2px;
+    border-color: #688de3;
+    border-style: solid;
+    padding: 3px;
+}
+table.Durum thead {        
+    background-color: #688de3;
+}
+.reloadButton {
+    background-color: #688de3;
+}

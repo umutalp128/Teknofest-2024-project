@@ -1,0 +1,5 @@
+kod/ui/teknofestNode/node_modules
+*.pth
+*.pyc
+kod/credentials.json
+kod/ui/teknofestNode/serviceAccountKey.json
