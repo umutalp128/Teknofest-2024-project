@@ -1,6 +1,5 @@
 from imageai.Detection import ObjectDetection
-import os , firebaseDbLib ,time
-import cv2
+import os, firebaseDbLib, time, io, cv2
 from datetime import datetime
 kamera = cv2.VideoCapture(0)
 execution_path = os.getcwd()
@@ -11,19 +10,15 @@ detector.loadModel()
 while True:
 
     ret, frame = kamera.read()
-
-    cv2.imwrite(os.path.join("/tmp","tmp.jpg"),frame)
-    detections = detector.detectObjectsFromImage(input_image=os.path.join("/tmp","tmp.jpg"), output_image_path=os.path.join("/tmp", "imagenew.jpg"))
-    os.remove(os.path.join("/tmp","tmp.jpg"))
-    tmpImagePath = os.path.join("/tmp","imagenew.jpg")
+    data = io.BytesIO()
+    detections = detector.detectObjectsFromImage(input_image=frame, output_image_path=data)
     for eachObject in detections:
         print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
         if eachObject["name"] == "cell phone" and eachObject["percentage_probability"] > 45:
             firebaseDbLib.algilanmaArttir()
             unix_timestamp = (datetime.now() - datetime(1970, 1, 1)).total_seconds()
             a = firebaseDbLib.plaka + " " + str(unix_timestamp)
-            firebaseDbLib.upload_file(a)
+            firebaseDbLib.upload_file(a,data)
             print("telefon algılandı")
             time.sleep(15)
-    os.remove(tmpImagePath)
 kamera.release()
