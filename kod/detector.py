@@ -10,14 +10,15 @@ detector.loadModel()
 while True:
 
     ret, frame = kamera.read()
-    data = io.BytesIO()
-    detections = detector.detectObjectsFromImage(input_image=frame, output_image_path=data)
+    image, detections = detector.detectObjectsFromImage(input_image=frame, output_type="array")
     for eachObject in detections:
         print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
         if eachObject["name"] == "cell phone" and eachObject["percentage_probability"] > 45:
             firebaseDbLib.algilanmaArttir()
             unix_timestamp = (datetime.now() - datetime(1970, 1, 1)).total_seconds()
-            a = firebaseDbLib.plaka + " " + str(unix_timestamp)
+            is_success, buffer = cv2.imencode(".jpg", image)
+            data = io.BytesIO(buffer)
+            a = firebaseDbLib.plaka + " " + str(unix_timestamp) + ".jpeg"
             firebaseDbLib.upload_file(a,data)
             print("telefon algılandı")
             time.sleep(15)

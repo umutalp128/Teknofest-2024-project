@@ -39,6 +39,6 @@ def upload_file(blob_adi:str,data):
     arac_ref, doc, current_id = init()
     dosya_adi = current_id + "/" + blob_adi
     blob = bucket.blob(dosya_adi)
-    blob.upload_from_file(data)
+    blob.upload_from_file(data, content_type="image/jpeg")
     arac_ref.set({"sonResimAdi" : blob_adi}, merge=True)
 
