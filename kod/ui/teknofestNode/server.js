@@ -5,7 +5,7 @@ var path = require('path');
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 const { getStorage, getDownloadURL } = require('firebase-admin/storage');
-
+const Firestore = require('@google-cloud/firestore');
 const fs = require('fs');
 const serviceAccount = require('./serviceAccountKey.json');
 
@@ -27,10 +27,24 @@ if (!doc.exists) {
 });
 */
 
+function add(plaka, gpsdurumu){
+  const db = getFirestore();
+  const araclar = db.collection('MainCollection');
+  let gps = new Firestore.GeoPoint(0,0);
+  let plakanew = String(plaka).toUpperCase();
+  araclar.add({
+    Plaka: plakanew,
+    Algilandi: 0,
+    Gps: gps,
+    GpsEnabled: gpsdurumu,
+    sonResimAdi: ""
+  }).then(() =>{
+    return;
+  });
+}
 
 app.use(express.static(path.join(__dirname, '/served')));
-app.listen(3000);
-
+app.listen(3030);
 
 app.post('/data', (req, res) => {
   const db = getFirestore();
@@ -59,10 +73,21 @@ app.post('/data', (req, res) => {
       });
       setTimeout(() => {
         res.end(JSON.stringify(aracData));
-      },600);
+      },600); 
   }); 
 
 
  
 });
 
+
+app.get("/aracekleme",(req,res) => {
+  let urlData = req.query;
+  if(urlData.gpsstatv != undefined){
+    add(urlData.plaka, true);
+  }else{
+    add(urlData.plaka, false);
+  }
+    
+  res.redirect("index.html");
+});

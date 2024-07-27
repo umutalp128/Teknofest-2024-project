@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araç Ekle </title>
+    <link rel="stylesheet" href="/add.css">
+</head>
+<body>
+    <form action="/aracekleme" method="get" class="ekle" id="form" autocomplete="off">
+        <div class="tableclass" >
+            <input type="text" name="plaka" placeholder="Plaka" id="plaka">
+            <div id="plakaError" class="error"></div>
+            <div id="gps"> 
+                <span>Gps Desteği</span>
+                <input type="checkbox" name="gpsstat" id="gpsstat" >
+            </div>
+            <button type="submit" class="add">Araç Ekle</button>
+        </div>
+    </form>
+    <script>
+        const form = document.getElementById('form');
+
+        form.addEventListener('submit', (e) => {
+            let valid = true;
+            let plakaInput = document.getElementById("plaka");
+            let plakaError = document.getElementById("plakaError");
+            if (plakaInput.value.trim() === "") {
+                valid = false;
+                plakaError.textContent = "Plaka boş olamaz.";
+            } else {
+                plakaError.textContent = "";
+            }
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
+
+    </script>
+</body>
+</html>

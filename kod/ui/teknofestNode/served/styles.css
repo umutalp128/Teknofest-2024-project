@@ -22,4 +22,9 @@ table.Durum thead {
 }
 .reloadButton {
     background-color: #688de3;
+    margin-top: 10px;
+}
+.aracekle{
+    background-color: #688de3;
+    margin-top: 10px;
 }

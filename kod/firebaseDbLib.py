@@ -7,7 +7,8 @@ firebase_admin.initialize_app(credentialData,{
 firestoreDb = firestore.client()
 bucket=storage.bucket()
 current_id = ""
-plaka = "22 AA 1234"
+plakaFile = open("plaka.txt","r")
+plaka = plakaFile.readline()
 
 def init():
     docs = (
