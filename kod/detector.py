@@ -17,10 +17,8 @@ detector.loadModel()
 while True:
 
     if is_raspberry_pi:
-        frame = picam2.capture_array("main")
-        imagedata = io.BytesIO()
-        picam2.capture_file(imagedata, format='jpeg')
-        image, detections = detector.detectObjectsFromImage(input_image=imagedata, output_type="array")
+        frame = picam2.capture_image("main")
+        image, detections = detector.detectObjectsFromImage(input_image=frame, output_type="array")
     else:
         ret, frame = kamera.read()
         image, detections = detector.detectObjectsFromImage(input_image=frame, output_type="array")
